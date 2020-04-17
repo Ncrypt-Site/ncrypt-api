@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build ncrypt-api" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+    <module name="ncrypt-api" />
+    <working_directory value="$PROJECT_DIR$" />
+    <envs>
+      <env name="NCRYPT_API_REDIS_HOST" value="127.0.0.1" />
+      <env name="NCRYPT_API_REDIS_PORT" value="17379" />
+    </envs>
+    <kind value="PACKAGE" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <package value="ncrypt-api" />
+    <directory value="$PROJECT_DIR$/" />
+    <method v="2" />
+  </configuration>
+</component>
