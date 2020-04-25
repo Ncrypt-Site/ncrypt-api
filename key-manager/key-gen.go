@@ -1,14 +1,7 @@
 package keyManager
 
 import (
-	"fmt"
 	"ncrypt-api/helpers"
-	"path/filepath"
-)
-
-const (
-	StorageDirectory = "./.storage/keys"
-	KeySize          = 4096
 )
 
 func GenerateNewKeyPair() error {
@@ -17,11 +10,10 @@ func GenerateNewKeyPair() error {
 		return err
 	}
 
-	filename, err := filepath.Abs(StorageDirectory)
+	filename, err := getKeyPath()
 	if err != nil {
 		return err
 	}
-	fmt.Println(filename)
 
 	filename += "/" + GetKeyId() + ".rsa"
 	err = helpers.WriteToFile(filename, convertPrivateKeyToByte(pkey), 0600)
