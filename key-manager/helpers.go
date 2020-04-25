@@ -1,11 +1,11 @@
-package key_manager
+package keyManager
 
 import (
 	"strconv"
 	"time"
 )
 
-func getKeyId() string {
+func GetKeyId() string {
 	t := time.Now()
 	// todo: this seems stupid, find a better way...
 	return strconv.Itoa(t.Year()) + strconv.Itoa(int(t.Month()))
