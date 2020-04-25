@@ -9,7 +9,14 @@ import (
 )
 
 func LoadCurrentKey() (*rsa.PrivateKey, error) {
-	f, err := ioutil.ReadFile("./.storage/" + GetKeyId() + ".rsa")
+	filename, err := getKeyPath()
+	if err != nil {
+		return nil, err
+	}
+
+	filename += "/" + GetKeyId() + ".rsa"
+
+	f, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -18,10 +25,18 @@ func LoadCurrentKey() (*rsa.PrivateKey, error) {
 }
 
 func LoadKey(name string) (*rsa.PrivateKey, error) {
-	f, err := ioutil.ReadFile("./.storage/" + name + ".rsa")
+	filename, err := getKeyPath()
 	if err != nil {
 		return nil, err
 	}
+
+	filename += "/" + name + ".rsa"
+
+	f, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
+
 	return parsePrivateKey(f)
 }
 
