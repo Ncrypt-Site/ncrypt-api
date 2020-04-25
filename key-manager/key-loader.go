@@ -1,4 +1,4 @@
-package key_manager
+package keyManager
 
 import (
 	"crypto/rsa"
@@ -9,7 +9,7 @@ import (
 )
 
 func LoadCurrentKey() (*rsa.PrivateKey, error) {
-	f, err := ioutil.ReadFile("./.storage/" + getKeyId() + ".rsa")
+	f, err := ioutil.ReadFile("./.storage/" + GetKeyId() + ".rsa")
 	if err != nil {
 		return nil, err
 	}
