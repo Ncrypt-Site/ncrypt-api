@@ -1,4 +1,4 @@
-package key_manager
+package keyManager
 
 import (
 	"crypto/rand"
