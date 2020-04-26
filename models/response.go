@@ -4,6 +4,6 @@ type Response struct {
 	Code    int
 	Message string
 	Data    interface{}
-	Error   error
+	Error   []string
 	Meta    interface{}
 }
