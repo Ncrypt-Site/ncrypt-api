@@ -1,4 +1,4 @@
-package keyManager
+package cypher
 
 import (
 	"crypto/rand"
