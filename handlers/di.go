@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"crypto/rsa"
 	"github.com/go-redis/redis/v7"
 	keyManager "ncrypt-api/key-manager"
 	"ncrypt-api/models"
@@ -9,13 +8,7 @@ import (
 
 type DI struct {
 	RedisClient *redis.Client
-	CryptoKey
-}
-
-type CryptoKey struct {
-	PrivateKey *rsa.PrivateKey
-	PublicKey  *rsa.PublicKey
-	KeyId      string
+	models.Key
 }
 
 func BuildDI(config models.Config) (DI, error) {
@@ -31,9 +24,9 @@ func BuildDI(config models.Config) (DI, error) {
 	if err != nil {
 		return DI{}, err
 	}
-	di.CryptoKey.PrivateKey = privateKey
-	di.CryptoKey.PublicKey = &privateKey.PublicKey
-	di.CryptoKey.KeyId = keyManager.GetKeyId()
+	di.Key.PrivateKey = privateKey
+	di.Key.PublicKey = &privateKey.PublicKey
+	di.Key.Id = keyManager.GetKeyId()
 
 	return di, nil
 }
