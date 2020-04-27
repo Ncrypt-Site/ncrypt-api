@@ -6,9 +6,9 @@ import (
 	"crypto/sha512"
 )
 
-func EncryptMessage(msg []byte, k *rsa.PublicKey) ([]byte, error) {
+func EncryptMessage(m []byte, k *rsa.PublicKey) ([]byte, error) {
 	hash := sha512.New()
-	ct, err := rsa.EncryptOAEP(hash, rand.Reader, k, msg, nil)
+	ct, err := rsa.EncryptOAEP(hash, rand.Reader, k, m, nil)
 	if err != nil {
 		return nil, err
 	}
