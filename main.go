@@ -26,6 +26,7 @@ func main() {
 
 	e.GET("/", di.Index)
 	e.GET("/api/v1", di.GetIndexV1)
+	e.POST("/api/v1/note", di.PostStoreSecretV1)
 
 	e.Logger.Fatal(e.Start(":1990"))
 }
