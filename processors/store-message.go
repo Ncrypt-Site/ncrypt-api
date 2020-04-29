@@ -17,8 +17,9 @@ func StoreMessage(client *redis.Client, k models.Key, m models.SecureMessageRequ
 	}
 
 	message := models.SecureMessage{
-		Message: encryptedMessage,
-		KeyId:   k.Id,
+		Message:              encryptedMessage,
+		KeyId:                k.Id,
+		DestructAfterOpening: m.DestructAfterOpening,
 	}
 
 	if len(m.Password) > 0 {
@@ -33,6 +34,11 @@ func StoreMessage(client *redis.Client, k models.Key, m models.SecureMessageRequ
 	messageUuid, err := uuid.NewRandom()
 	if err != nil {
 		return uuid.UUID{}, err
+	}
+
+	if m.SelfDestruct == 0 {
+		m.SelfDestruct = 720
+		message.DestructAfterOpening = true
 	}
 
 	jsonData, err := json.Marshal(message)
