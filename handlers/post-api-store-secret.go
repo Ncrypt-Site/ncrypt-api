@@ -17,7 +17,7 @@ func (di DI) PostStoreSecretV1(c echo.Context) error {
 			http.StatusUnprocessableEntity,
 			helpers.BuildResponse(
 				http.StatusUnprocessableEntity,
-				"body data not accepted",
+				"request data not accepted",
 				nil,
 				nil,
 				nil,
