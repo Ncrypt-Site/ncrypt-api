@@ -8,7 +8,8 @@ type SecureMessageRequest struct {
 }
 
 type SecureMessage struct {
-	Message  []byte
-	KeyId    string
-	Password string
+	Message              []byte
+	KeyId                string
+	Password             string
+	DestructAfterOpening bool
 }
