@@ -53,12 +53,17 @@ func (di DI) PostStoreSecretV1(c echo.Context) error {
 		)
 	}
 
+	response := models.SecureMessageResponse{
+		Id:  messageUuid.String(),
+		URL: "",
+	}
+
 	return c.JSON(
 		http.StatusCreated,
 		helpers.BuildResponse(
 			http.StatusCreated,
 			"Message stored.",
-			messageUuid,
+			&response,
 			nil,
 			nil,
 		),
