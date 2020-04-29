@@ -7,6 +7,11 @@ type SecureMessageRequest struct {
 	DestructAfterOpening bool   `json:"destruct_after_opening" validate:"omitempty"`
 }
 
+type SecureMessageResponse struct {
+	Id  string `json:"id"`
+	URL string `json:"url"`
+}
+
 type SecureMessage struct {
 	Message              []byte
 	KeyId                string
