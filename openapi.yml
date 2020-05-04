@@ -129,6 +129,8 @@ components:
               example: 'https://ncrypt.site/note/7f916723-72c8-4da5-8e1e-2432094f643a'
         error:
           type: array
+          items:
+            type: string
           example: null
         meta:
           type: object
@@ -150,6 +152,8 @@ components:
           example: null
         error:
           type: array
+          items:
+            type: string
           example:
             - note does not exist
         meta:
@@ -172,6 +176,8 @@ components:
               example: An uncrypted message
         error:
           type: array
+          items:
+            type: string
           example: null
         meta:
           type: object
