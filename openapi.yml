@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: NCrypt API
+  description: NCrypt API documentation
+
+servers:
+  - url: https://core.ncrypt.site/api/v1
+
+paths:
+  /note/{id}:
+    get:
+      description: Retrieve a note and probably destory it after retrieval
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: secure note id
+        - in: header
+          name: X-NCRYPT-NOTE-PASSWORD
+          schema:
+            type: string
+          required: false
+      responses:
+        '200':
+          description: Note data decrypted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveNoteResponse'
+
+        '400':
+          description: Error while retrieving note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+        '500':
+          description: Server error, normally indicates something wrong on the app side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+
+  /note:
+    post:
+      description: Lets a user post a new artist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteRequest'
+
+      responses:
+        '201':
+          description: Successfully created a new artist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNoteResponse'
+
+        '422':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+        '500':
+          description: Server error, normally indicates something wrong on the app side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+components:
+  schemas:
+    CreateNoteRequest:
+      type: object
+      required:
+        - message
+        - self_destruct
+      properties:
+        message:
+          type: string
+          example: a passphrase to share with someone through an insecure medium
+        self_destruct:
+          type: string
+          enum:
+            - 0
+            - 1
+            - 3
+            - 6
+            - 12
+            - 24
+            - 48
+            - 72
+            - 168
+            - 720
+          example: 3
+        destruct_after_opening:
+          type: boolean
+          example: false
+        password:
+          type: string
+          example: a very secure password
+    CreateNoteResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 7f916723-72c8-4da5-8e1e-2432094f643a
+            url:
+              type: string
+              example: 'https://ncrypt.site/note/7f916723-72c8-4da5-8e1e-2432094f643a'
+        error:
+          type: array
+          example: null
+        meta:
+          type: object
+          example: null
+    ResponseError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example:
+            - 422
+            - 400
+            - 500
+        message:
+          type: string
+          example: unable to retrieve note
+        data:
+          type: object
+          example: null
+        error:
+          type: array
+          example:
+            - note does not exist
+        meta:
+          type: object
+          example: null
+    RetrieveNoteResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Message retrieved.
+        data:
+          type: object
+          properties:
+            note:
+              type: string
+              example: An uncrypted message
+        error:
+          type: array
+          example: null
+        meta:
+          type: object
+          example: null
