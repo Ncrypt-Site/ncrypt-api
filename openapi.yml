@@ -91,7 +91,7 @@ components:
           type: string
           example: a passphrase to share with someone through an insecure medium
         self_destruct:
-          type: string
+          type: integer
           enum:
             - 0
             - 1
