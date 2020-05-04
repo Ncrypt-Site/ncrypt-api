@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func (di DI) PostStoreSecureNotetV1(c echo.Context) error {
+func (di DI) PostStoreSecureNoteV1(c echo.Context) error {
 	payload := models.SecureMessageRequest{}
 
 	err := c.Bind(&payload)

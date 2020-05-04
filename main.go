@@ -26,7 +26,7 @@ func main() {
 
 	e.GET("/", di.Index)
 	e.GET("/api/v1", di.GetIndexV1)
-	e.POST("/api/v1/note", di.PostStoreSecureNotetV1)
+	e.POST("/api/v1/note", di.PostStoreSecureNoteV1)
 	e.GET("/api/v1/note/:id", di.GetSecureNoteV1)
 
 	e.Logger.Fatal(e.Start(":1990"))
