@@ -49,9 +49,9 @@ func (di DI) GetSecureNoteV1(c echo.Context) error {
 	note, err := processors.RetrieveSecureNote(di.RedisClient, di.Key, payload)
 	if err != nil {
 		return c.JSON(
-			http.StatusInternalServerError,
+			http.StatusBadRequest,
 			helpers.BuildResponse(
-				http.StatusInternalServerError,
+				http.StatusBadRequest,
 				"unable to retrieve note",
 				nil,
 				[]string{err.Error()},
