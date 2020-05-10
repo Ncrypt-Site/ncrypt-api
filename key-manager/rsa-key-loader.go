@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-func LoadCurrentKey() (*rsa.PrivateKey, error) {
+func LoadCurrentRSAKey() (*rsa.PrivateKey, error) {
 	filename, err := getKeyPath()
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func LoadCurrentKey() (*rsa.PrivateKey, error) {
 	return parsePrivateKey(f)
 }
 
-func LoadKey(name string) (*rsa.PrivateKey, error) {
+func LoadRSAKey(name string) (*rsa.PrivateKey, error) {
 	filename, err := getKeyPath()
 	if err != nil {
 		return nil, err
