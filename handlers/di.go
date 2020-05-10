@@ -20,7 +20,7 @@ func BuildDI(config models.Config) (DI, error) {
 	}
 	di.RedisClient = rc
 
-	privateKey, err := keyManager.LoadCurrentKey()
+	privateKey, err := keyManager.LoadCurrentRSAKey()
 	if err != nil {
 		return DI{}, err
 	}
