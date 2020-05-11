@@ -39,7 +39,7 @@ func (di DI) PostStoreSecureNoteV1(c echo.Context) error {
 		)
 	}
 
-	messageUuid, err := processors.StoreMessage(di.RedisClient, di.Key, payload)
+	messageUuid, err := processors.StoreMessage(di.RedisClient, payload)
 	if err != nil {
 		return c.JSON(
 			http.StatusInternalServerError,

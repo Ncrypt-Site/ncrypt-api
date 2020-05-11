@@ -11,7 +11,6 @@ import (
 
 func (di DI) GetSecureNoteV1(c echo.Context) error {
 	id := c.Param("id")
-	password := c.Request().Header.Get("X-NCRYPT-NOTE-PASSWORD")
 
 	noteId, err := uuid.Parse(id)
 	if err != nil {
@@ -28,8 +27,7 @@ func (di DI) GetSecureNoteV1(c echo.Context) error {
 	}
 
 	payload := models.RetrieveNoteRequest{
-		Id:       noteId,
-		Password: password,
+		Id: noteId,
 	}
 
 	err = c.Validate(payload)
@@ -46,7 +44,7 @@ func (di DI) GetSecureNoteV1(c echo.Context) error {
 		)
 	}
 
-	note, err := processors.RetrieveSecureNote(di.RedisClient, di.Key, payload)
+	note, err := processors.RetrieveSecureNote(di.RedisClient, payload)
 	if err != nil {
 		return c.JSON(
 			http.StatusBadRequest,
