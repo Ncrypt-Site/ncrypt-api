@@ -19,11 +19,6 @@ paths:
             format: uuid
           required: true
           description: secure note id
-        - in: header
-          name: X-NCRYPT-NOTE-PASSWORD
-          schema:
-            type: string
-          required: false
       responses:
         '200':
           description: Note data decrypted
@@ -89,7 +84,7 @@ components:
       properties:
         message:
           type: string
-          example: a passphrase to share with someone through an insecure medium
+          example: It matters not what someone is born, but what they grow to be.
         self_destruct:
           type: integer
           enum:
@@ -107,9 +102,6 @@ components:
         destruct_after_opening:
           type: boolean
           example: false
-        password:
-          type: string
-          example: a very secure password
     CreateNoteResponse:
       type: object
       properties:
@@ -173,7 +165,7 @@ components:
           properties:
             note:
               type: string
-              example: An uncrypted message
+              example: We are only as strong as we are united, as weak as we are divided.
         error:
           type: array
           items:
