@@ -2,33 +2,16 @@ package processors
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/go-redis/redis/v7"
 	"github.com/google/uuid"
-	"ncrypt-api/cypher"
 	"ncrypt-api/models"
 	"time"
 )
 
-func StoreMessage(client *redis.Client, k models.Key, m models.SecureMessageRequest) (uuid.UUID, error) {
-	encryptedMessage, err := cypher.EncryptMessage([]byte(m.Message), k.PublicKey)
-	if err != nil {
-		fmt.Println(err)
-	}
-
+func StoreMessage(client *redis.Client, m models.SecureMessageRequest) (uuid.UUID, error) {
 	message := models.SecureMessage{
-		Message:              encryptedMessage,
-		KeyId:                k.Id,
+		Message:              []byte(m.Message),
 		DestructAfterOpening: m.DestructAfterOpening,
-	}
-
-	if len(m.Password) > 0 {
-		passwordHash, err := cypher.HashPassword([]byte(m.Password))
-		if err != nil {
-			return uuid.UUID{}, err
-		}
-
-		message.Password = passwordHash
 	}
 
 	messageUuid, err := uuid.NewRandom()
