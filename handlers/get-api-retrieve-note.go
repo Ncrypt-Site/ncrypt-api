@@ -64,7 +64,7 @@ func (di DI) GetSecureNoteV1(c echo.Context) error {
 		http.StatusOK,
 		helpers.BuildResponse(
 			http.StatusOK,
-			"Message retrieved.",
+			"Note retrieved.",
 			&response,
 			nil,
 			nil,

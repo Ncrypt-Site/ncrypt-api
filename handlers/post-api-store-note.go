@@ -62,7 +62,7 @@ func (di DI) PostStoreSecureNoteV1(c echo.Context) error {
 		http.StatusCreated,
 		helpers.BuildResponse(
 			http.StatusCreated,
-			"Message stored.",
+			"Note stored.",
 			&response,
 			nil,
 			nil,
