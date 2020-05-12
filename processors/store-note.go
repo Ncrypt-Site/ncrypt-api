@@ -10,7 +10,7 @@ import (
 
 func StoreMessage(client *redis.Client, m models.SecureMessageRequest) (uuid.UUID, error) {
 	message := models.SecureMessage{
-		Message:              []byte(m.Message),
+		Note:                 []byte(m.Note),
 		DestructAfterOpening: m.DestructAfterOpening,
 	}
 

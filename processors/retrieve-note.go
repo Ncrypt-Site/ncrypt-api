@@ -26,7 +26,7 @@ func RetrieveSecureNote(client *redis.Client, payload models.RetrieveNoteRequest
 		}
 	}
 
-	return note.Message, nil
+	return note.Note, nil
 }
 
 func checkIfNoteExists(client *redis.Client, id uuid.UUID) bool {
