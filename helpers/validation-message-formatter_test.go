@@ -8,9 +8,8 @@ import (
 
 func TestFormatValidationErrorMessage(t *testing.T) {
 	data := models.SecureMessageRequest{
-		Message:              "Imperio",
+		Note:                 "",
 		SelfDestruct:         0,
-		Password:             "abc",
 		DestructAfterOpening: false,
 	}
 	v := validator.New()
@@ -18,8 +17,8 @@ func TestFormatValidationErrorMessage(t *testing.T) {
 
 	validationError := FormatValidationErrorMessage(err)
 
-	if len(validationError) != 1 &&
-		validationError[0] != "validation failed for field: Password. reason: min. additional data: 8" {
+	if len(validationError) != 1 ||
+		validationError[0] != "validation failed for field: Note. reason: required." {
 		t.Fatalf("expected 1 error but got %v, more details are: %v", len(validationError), validationError)
 	}
 }
