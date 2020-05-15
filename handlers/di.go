@@ -14,11 +14,15 @@ type DI struct {
 func BuildDI(config models.Config) (DI, error) {
 	di := DI{}
 
-	rc, err := buildRedisConnection(config.RedisConfig)
+	storageInterface, err := findStorageDriver(config.StorageDriver)
 	if err != nil {
-		return DI{}, err
+		log.Fatal(err)
 	}
-	di.RedisClient = rc
+
+	di.StorageDriver, err = storageInterface.(models.StorageInterface).BuildConfiguration(config)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return di, nil
 }
