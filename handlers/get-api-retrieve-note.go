@@ -44,7 +44,7 @@ func (di DI) GetSecureNoteV1(c echo.Context) error {
 		)
 	}
 
-	note, err := processors.RetrieveSecureNote(di.RedisClient, payload)
+	note, err := processors.RetrieveSecureNote(di.StorageDriver, payload)
 	if err != nil {
 		return c.JSON(
 			http.StatusBadRequest,
