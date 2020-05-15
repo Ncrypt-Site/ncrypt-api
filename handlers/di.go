@@ -1,8 +1,10 @@
 package handlers
 
 import (
-	"github.com/go-redis/redis/v7"
+	"errors"
+	"log"
 	"ncrypt-api/models"
+	"ncrypt-api/storage"
 )
 
 type DI struct {
@@ -21,17 +23,11 @@ func BuildDI(config models.Config) (DI, error) {
 	return di, nil
 }
 
-func buildRedisConnection(config models.RedisConfig) (*redis.Client, error) {
-	c := redis.NewClient(&redis.Options{
-		Addr:     config.Addr,
-		Password: config.Password, // no password set
-		DB:       config.Database, // use default DB
-	})
-
-	_, err := c.Ping().Result()
-	if err != nil {
-		return nil, err
+func findStorageDriver(d string) (interface{}, error) {
+	s, ok := storage.Storage[d]
+	if !ok {
+		return nil, errors.New("unsupported storage")
 	}
 
-	return c, nil
+	return s, nil
 }
