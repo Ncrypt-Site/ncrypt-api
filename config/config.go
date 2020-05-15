@@ -10,8 +10,17 @@ func BuildConfig() models.Config {
 	config := models.Config{}
 
 	config.RedisConfig = BuildRedisConfig()
+	config.StorageDriver = BuildStorageDriver()
 
 	return config
+}
+
+func BuildStorageDriver() string {
+	if driver, ok := os.LookupEnv("NCRYPT_API_STORAGE_DRIVER"); ok {
+		return driver
+	}
+
+	return "redis"
 }
 
 func BuildRedisConfig() models.RedisConfig {
