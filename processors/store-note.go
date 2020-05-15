@@ -2,13 +2,12 @@ package processors
 
 import (
 	"encoding/json"
-	"github.com/go-redis/redis/v7"
 	"github.com/google/uuid"
 	"ncrypt-api/models"
 	"time"
 )
 
-func StoreMessage(client *redis.Client, m models.SecureMessageRequest) (uuid.UUID, error) {
+func StoreMessage(storage models.StorageInterface, m models.SecureMessageRequest) (uuid.UUID, error) {
 	message := models.SecureMessage{
 		Note:                 []byte(m.Note),
 		DestructAfterOpening: m.DestructAfterOpening,
@@ -29,7 +28,7 @@ func StoreMessage(client *redis.Client, m models.SecureMessageRequest) (uuid.UUI
 		return uuid.UUID{}, err
 	}
 
-	err = client.Set(messageUuid.String(), jsonData, time.Hour*time.Duration(m.SelfDestruct)).Err()
+	err = storage.Store(messageUuid, jsonData, time.Hour*time.Duration(m.SelfDestruct))
 	if err != nil {
 		return uuid.UUID{}, err
 	}
