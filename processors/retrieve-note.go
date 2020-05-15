@@ -28,38 +28,3 @@ func RetrieveSecureNote(client *redis.Client, payload models.RetrieveNoteRequest
 
 	return note.Note, nil
 }
-
-func checkIfNoteExists(client *redis.Client, id uuid.UUID) bool {
-	result, err := client.Exists(id.String()).Result()
-	if err != nil || result == 0 {
-		return false
-	}
-
-	return true
-}
-
-func retrieveNote(client *redis.Client, id uuid.UUID) (models.SecureMessage, error) {
-	secureMessage := models.SecureMessage{}
-
-	note, err := client.Get(id.String()).Result()
-	if err != nil {
-		return secureMessage, err
-	}
-
-	if err := json.Unmarshal([]byte(note), &secureMessage); err != nil {
-		return secureMessage, err
-	}
-
-	return secureMessage, nil
-}
-
-func deleteNote(client *redis.Client, id uuid.UUID) error {
-	result, err := client.Del(id.String()).Result()
-	if err != nil {
-		return err
-	}
-	if result != 1 {
-		return errors.New("the note was not deleted due to an error on redis")
-	}
-	return nil
-}
