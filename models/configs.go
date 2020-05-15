@@ -1,6 +1,7 @@
 package models
 
 type Config struct {
+	StorageDriver string
 	RedisConfig
 }
 
