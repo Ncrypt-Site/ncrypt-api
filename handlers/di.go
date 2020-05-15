@@ -6,7 +6,7 @@ import (
 )
 
 type DI struct {
-	RedisClient *redis.Client
+	StorageDriver models.StorageInterface
 }
 
 func BuildDI(config models.Config) (DI, error) {
