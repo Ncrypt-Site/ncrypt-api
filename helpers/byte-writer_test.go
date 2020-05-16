@@ -15,7 +15,7 @@ func TestWriteToFile(t *testing.T) {
 	data := []byte("Codes are, in my not so humble opinion, our most inexhaustible source of magic, " +
 		"capable of both influencing injury, and remedying it.")
 
-	absPath, _ := filepath.Abs("../.storage/.tmp")
+	absPath, _ := filepath.Abs(".")
 	tempFile := absPath + "/tmp.txt"
 	permission := os.FileMode(0644)
 
@@ -53,7 +53,7 @@ func TestWriteToFileForFailure(t *testing.T) {
 	data := []byte("Codes are, in my not so humble opinion, our most inexhaustible source of magic, " +
 		"capable of both influencing injury, and remedying it.")
 
-	absPath, _ := filepath.Abs("../.storage/.invalid_dir")
+	absPath, _ := filepath.Abs("../.invalid_dir")
 	tempFile := absPath + "/tmp.txt"
 	permission := os.FileMode(0000)
 
