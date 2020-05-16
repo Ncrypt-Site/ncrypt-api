@@ -91,12 +91,30 @@ func TestBuildRedisConfigWithAllEnvDefined(t *testing.T) {
 	os.Clearenv()
 }
 
+func TestBuildStorageDriver(t *testing.T) {
+	driver := BuildStorageDriver()
+	if driver != "redis" {
+		t.Fail()
+	}
+
+	err := os.Setenv("NCRYPT_API_STORAGE_DRIVER", "fake")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	driver = BuildStorageDriver()
+	if driver != "fake" {
+		t.Fail()
+	}
+}
+
 func TestBuildConfig(t *testing.T) {
 	config := BuildConfig()
 
 	if config.RedisConfig.Database != 0 &&
 		config.RedisConfig.Addr != "127.0.0.1:6379" &&
-		config.RedisConfig.Password != "" {
+		config.RedisConfig.Password != "" &&
+		config.StorageDriver != "redis" {
 		t.Fail()
 	}
 }
