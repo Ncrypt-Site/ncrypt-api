@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func (di DI) GetSecureNoteV1(c echo.Context) error {
+func (di *DI) GetSecureNoteV1(c echo.Context) error {
 	id := c.Param("id")
 
 	noteId, err := uuid.Parse(id)
