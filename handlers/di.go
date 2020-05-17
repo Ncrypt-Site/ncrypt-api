@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"log"
 	"ncrypt-api/models"
 	"ncrypt-api/storage"
 )
@@ -16,12 +15,12 @@ func BuildDI(config models.Config) (DI, error) {
 
 	storageInterface, err := findStorageDriver(config.StorageDriver)
 	if err != nil {
-		log.Fatal(err)
+		return DI{}, err
 	}
 
 	di.StorageDriver, err = storageInterface.(models.StorageInterface).BuildConfiguration(config)
 	if err != nil {
-		log.Fatal(err)
+		return DI{}, err
 	}
 
 	return di, nil
