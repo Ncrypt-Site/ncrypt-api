@@ -201,3 +201,18 @@ func TestRedisStorage_ExistsWithInvalidNoteId(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRedisStorage_ExistsWithRedisFailure(t *testing.T) {
+	client := redis.NewClient(&redis.Options{
+		Addr: "fake-add:1990",
+	})
+
+	storage := RedisStorage{
+		Client: client,
+	}
+
+	exists := storage.Exists(uuid.New())
+	if exists {
+		t.Fail()
+	}
+}
