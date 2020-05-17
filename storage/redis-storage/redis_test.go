@@ -158,3 +158,18 @@ func TestRedisStorage_DeleteWithInvalidNoteId(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRedisStorage_DeleteWithRedisFailure(t *testing.T) {
+	client := redis.NewClient(&redis.Options{
+		Addr: "fake-add:1990",
+	})
+
+	storage := RedisStorage{
+		Client: client,
+	}
+
+	err := storage.Delete(uuid.New())
+	if err == nil {
+		t.Fail()
+	}
+}
