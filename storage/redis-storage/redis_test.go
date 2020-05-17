@@ -191,3 +191,13 @@ func TestRedisStorage_Exists(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRedisStorage_ExistsWithInvalidNoteId(t *testing.T) {
+	storage, ms := getMiniRedisClient()
+	defer ms.Close()
+
+	exists := storage.Exists(uuid.New())
+	if exists {
+		t.Fail()
+	}
+}
