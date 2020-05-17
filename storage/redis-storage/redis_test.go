@@ -97,3 +97,18 @@ func TestRedisStorage_RetrieveWithValidData(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRedisStorage_RetrieveWithRedisFailure(t *testing.T) {
+	client := redis.NewClient(&redis.Options{
+		Addr: "fake-add:1990",
+	})
+
+	storage := RedisStorage{
+		Client: client,
+	}
+
+	_, err := storage.Retrieve(uuid.New())
+	if err == nil {
+		t.Fail()
+	}
+}
