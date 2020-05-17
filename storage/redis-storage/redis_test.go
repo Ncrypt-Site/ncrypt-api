@@ -1,6 +1,7 @@
 package redis_storage
 
 import (
+	"encoding/json"
 	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis/v7"
 	"github.com/google/uuid"
@@ -70,6 +71,29 @@ func TestRedisStorage_StoreFailure(t *testing.T) {
 
 	err := storage.Store(uuid.New(), []byte(""), time.Minute*10)
 	if err == nil {
+		t.Fail()
+	}
+}
+
+func TestRedisStorage_RetrieveWithValidData(t *testing.T) {
+	storage, ms := getMiniRedisClient()
+	defer ms.Close()
+
+	secureMessage := models.SecureMessage{
+		Note:                 []byte("perhaps those who are best suited to power are those who have never sought it."),
+		DestructAfterOpening: false,
+	}
+	jsonMessage, _ := json.Marshal(secureMessage)
+	id := uuid.New()
+
+	err := storage.Store(id, jsonMessage, time.Minute*2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	messageModel, err := storage.Retrieve(id)
+	if err != nil ||
+		string(messageModel.Note) != string(secureMessage.Note) {
 		t.Fail()
 	}
 }
