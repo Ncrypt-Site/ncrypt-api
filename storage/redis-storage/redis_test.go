@@ -148,3 +148,13 @@ func TestRedisStorage_Delete(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestRedisStorage_DeleteWithInvalidNoteId(t *testing.T) {
+	storage, ms := getMiniRedisClient()
+	defer ms.Close()
+
+	err := storage.Delete(uuid.New())
+	if err == nil {
+		t.Fail()
+	}
+}
