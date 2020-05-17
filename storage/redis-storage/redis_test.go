@@ -112,3 +112,21 @@ func TestRedisStorage_RetrieveWithRedisFailure(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRedisStorage_RetrieveWithJsonUnmarshalFailure(t *testing.T) {
+	storage, ms := getMiniRedisClient()
+	defer ms.Close()
+
+	message := []byte("perhaps those who are best suited to power are those who have never sought it.")
+	id := uuid.New()
+
+	err := storage.Store(id, message, time.Minute*2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = storage.Retrieve(id)
+	if err == nil {
+		t.Fail()
+	}
+}
