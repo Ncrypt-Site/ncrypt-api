@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestDI_GetSecureNoteV1(t *testing.T) {
+func TestDI_GetSecureNoteV1WithInvalidUUID(t *testing.T) {
 	storage.Storage["shadow"] = storageShadowInterface{}
 	c := config.BuildConfig()
 	c.StorageDriver = "shadow"
