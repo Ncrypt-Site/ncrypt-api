@@ -42,6 +42,10 @@ func (s storageShadowWithFailedStore) Store(id uuid.UUID, data []byte, duration 
 	return errors.New("an error")
 }
 
+func (s storageShadowInterface) Store(id uuid.UUID, data []byte, duration time.Duration) error {
+	return nil
+}
+
 func TestDI_PostStoreSecureNoteV1WithNoValidData(t *testing.T) {
 	storage.Storage["shadow"] = storageShadowInterface{}
 	c := config.BuildConfig()
@@ -150,6 +154,52 @@ func TestDI_PostStoreSecureNoteV1WithValidPayloadAndStorageInterfaceFailure(t *t
 	}
 
 	if responseModel.Message != "internal error occurred" {
+		t.Fail()
+	}
+}
+
+func TestDI_PostStoreSecureNoteV1WithValidPayload(t *testing.T) {
+	storage.Storage["shadow"] = storageShadowInterface{}
+	c := config.BuildConfig()
+	c.StorageDriver = "shadow"
+
+	di, err := BuildDI(c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(postValidPayload))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	// injecting validator
+	v := validator.New()
+	e.Validator = &customValidator{validator: v}
+
+	//build context
+	context := e.NewContext(req, rec)
+
+	err = di.PostStoreSecureNoteV1(context)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if rec.Code != http.StatusCreated {
+		t.Fail()
+	}
+
+	responseModel := models.Response{}
+	err = json.Unmarshal(rec.Body.Bytes(), &responseModel)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if responseModel.Message != "Note stored." {
+		t.Fail()
+	}
+
+	if responseModel.Data.(map[string]interface{})["id"] == "" {
 		t.Fail()
 	}
 }
