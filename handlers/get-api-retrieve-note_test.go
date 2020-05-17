@@ -26,6 +26,17 @@ func (s storageShadowWithFailedExists) Exists(id uuid.UUID) bool {
 	return false
 }
 
+func (s storageShadowInterface) Exists(id uuid.UUID) bool {
+	return true
+}
+
+func (s storageShadowInterface) Retrieve(id uuid.UUID) (models.SecureMessage, error) {
+	return models.SecureMessage{
+		Note:                 []byte("It is the unknown we fear when we look upon death and darkness, nothing more."),
+		DestructAfterOpening: false,
+	}, nil
+}
+
 func TestDI_GetSecureNoteV1WithInvalidUUID(t *testing.T) {
 	storage.Storage["shadow"] = storageShadowInterface{}
 	c := config.BuildConfig()
@@ -104,6 +115,47 @@ func TestDI_GetSecureNoteV1WithStorageFailure(t *testing.T) {
 	}
 
 	if responseModel.Message != "unable to retrieve note" {
+		t.Fail()
+	}
+}
+
+func TestDI_GetSecureNoteV1(t *testing.T) {
+	storage.Storage["shadow"] = storageShadowInterface{}
+	c := config.BuildConfig()
+	c.StorageDriver = "shadow"
+
+	di, err := BuildDI(c)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+
+	// injecting validator
+	v := validator.New()
+	e.Validator = &customValidator{validator: v}
+
+	//build context
+	context := e.NewContext(req, rec)
+	context.SetPath("api/v1/note/:id")
+	context.SetParamNames("id")
+	context.SetParamValues(uuid.New().String())
+
+	err = di.GetSecureNoteV1(context)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	responseModel := models.Response{}
+	err = json.Unmarshal(rec.Body.Bytes(), &responseModel)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if rec.Code != http.StatusOK {
 		t.Fail()
 	}
 }
