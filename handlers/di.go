@@ -8,6 +8,7 @@ import (
 
 type DI struct {
 	StorageDriver models.StorageInterface
+	models.ApplicationConfig
 }
 
 func BuildDI(config models.Config) (DI, error) {
@@ -22,6 +23,8 @@ func BuildDI(config models.Config) (DI, error) {
 	if err != nil {
 		return DI{}, err
 	}
+
+	di.ApplicationConfig = config.ApplicationConfig
 
 	return di, nil
 }
