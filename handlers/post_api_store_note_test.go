@@ -12,6 +12,7 @@ import (
 	redisStorage "ncrypt-api/storage/redis-storage"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -159,6 +160,11 @@ func TestDI_PostStoreSecureNoteV1WithValidPayloadAndStorageInterfaceFailure(t *t
 }
 
 func TestDI_PostStoreSecureNoteV1WithValidPayload(t *testing.T) {
+	err := os.Setenv("NCRYPT_API_APP_BASE_URL", "https://farshad.nematdoust.com")
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	storage.Storage["shadow"] = storageShadowInterface{}
 	c := config.BuildConfig()
 	c.StorageDriver = "shadow"
@@ -199,7 +205,13 @@ func TestDI_PostStoreSecureNoteV1WithValidPayload(t *testing.T) {
 		t.Fail()
 	}
 
-	if responseModel.Data.(map[string]interface{})["id"] == "" {
+	noteId, ok := responseModel.Data.(map[string]interface{})["id"].(string)
+	if !ok || noteId == "" {
+		t.Fail()
+	}
+
+	url, ok := responseModel.Data.(map[string]interface{})["url"].(string)
+	if !ok || url != "https://farshad.nematdoust.com/note/"+noteId {
 		t.Fail()
 	}
 }
