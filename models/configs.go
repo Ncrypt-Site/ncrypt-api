@@ -18,4 +18,5 @@ type RedisConfig struct {
 
 type ApplicationUrlConfig struct {
 	ApiBaseUrl string
+	AppBaseUrl string
 }

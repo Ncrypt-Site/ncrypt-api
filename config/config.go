@@ -19,9 +19,14 @@ func BuildConfig() models.Config {
 func BuildApplicationConfig() models.ApplicationConfig {
 	c := models.ApplicationConfig{}
 
-	apiBaseUrl, ok := os.LookupEnv("NCRYPT_API_APPLICATION_BASE_URL")
+	apiBaseUrl, ok := os.LookupEnv("NCRYPT_API_API_BASE_URL")
 	if ok {
 		c.ApplicationUrlConfig.ApiBaseUrl = apiBaseUrl
+	}
+
+	appBaseUrl, ok := os.LookupEnv("NCRYPT_API_APP_BASE_URL")
+	if ok {
+		c.ApplicationUrlConfig.AppBaseUrl = appBaseUrl
 	}
 
 	return c
