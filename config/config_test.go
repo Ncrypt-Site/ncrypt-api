@@ -127,12 +127,12 @@ func TestBuildApplicationConfig(t *testing.T) {
 		t.Fail()
 	}
 
-	err := os.Setenv("NCRYPT_API_APP_BASE_URL", "https://farshad.nematdoust.com/")
+	err := os.Setenv("NCRYPT_API_APP_BASE_URL", "https://farshad.nematdoust.com")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = os.Setenv("NCRYPT_API_API_BASE_URL", "https://farshad.nematdoust.com/")
+	err = os.Setenv("NCRYPT_API_API_BASE_URL", "https://farshad.nematdoust.com")
 	if err != nil {
 		t.Fatal(err)
 	}
