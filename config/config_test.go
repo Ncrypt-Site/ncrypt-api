@@ -115,24 +115,30 @@ func TestBuildConfig(t *testing.T) {
 		c.RedisConfig.Addr != "127.0.0.1:6379" &&
 		c.RedisConfig.Password != "" &&
 		c.StorageDriver != "redis" &&
-		c.ApiBaseUrl == "" {
+		c.ApiBaseUrl == "" &&
+		c.AppBaseUrl == "" {
 		t.Fail()
 	}
 }
 
 func TestBuildApplicationConfig(t *testing.T) {
 	c := BuildApplicationConfig()
-	if len(c.ApiBaseUrl) != 0 {
+	if len(c.ApiBaseUrl) != 0 || len(c.AppBaseUrl) != 0 {
 		t.Fail()
 	}
 
-	err := os.Setenv("NCRYPT_API_APPLICATION_BASE_URL", "https://farshad.nematdoust.com/")
+	err := os.Setenv("NCRYPT_API_APP_BASE_URL", "https://farshad.nematdoust.com/")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = os.Setenv("NCRYPT_API_API_BASE_URL", "https://farshad.nematdoust.com/")
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	c = BuildApplicationConfig()
-	if c.ApiBaseUrl != "https://farshad.nematdoust.com/" {
+	if c.ApiBaseUrl != "https://farshad.nematdoust.com/" || c.AppBaseUrl != "https://farshad.nematdoust.com/" {
 		t.Fail()
 	}
 }
