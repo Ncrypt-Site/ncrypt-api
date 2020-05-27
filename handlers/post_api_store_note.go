@@ -55,7 +55,7 @@ func (di *DI) PostStoreSecureNoteV1(c echo.Context) error {
 
 	response := models.SecureMessageResponse{
 		Id:  messageUuid.String(),
-		URL: "",
+		URL: di.ApplicationConfig.ApplicationUrlConfig.AppBaseUrl + "/note/" + messageUuid.String(),
 	}
 
 	return c.JSON(
