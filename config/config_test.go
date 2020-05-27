@@ -109,12 +109,30 @@ func TestBuildStorageDriver(t *testing.T) {
 }
 
 func TestBuildConfig(t *testing.T) {
-	config := BuildConfig()
+	c := BuildConfig()
 
-	if config.RedisConfig.Database != 0 &&
-		config.RedisConfig.Addr != "127.0.0.1:6379" &&
-		config.RedisConfig.Password != "" &&
-		config.StorageDriver != "redis" {
+	if c.RedisConfig.Database != 0 &&
+		c.RedisConfig.Addr != "127.0.0.1:6379" &&
+		c.RedisConfig.Password != "" &&
+		c.StorageDriver != "redis" &&
+		c.ApiBaseUrl == "" {
+		t.Fail()
+	}
+}
+
+func TestBuildApplicationConfig(t *testing.T) {
+	c := BuildApplicationConfig()
+	if len(c.ApiBaseUrl) != 0 {
+		t.Fail()
+	}
+
+	err := os.Setenv("NCRYPT_API_APPLICATION_BASE_URL", "https://farshad.nematdoust.com/")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	c = BuildApplicationConfig()
+	if c.ApiBaseUrl != "https://farshad.nematdoust.com/" {
 		t.Fail()
 	}
 }
