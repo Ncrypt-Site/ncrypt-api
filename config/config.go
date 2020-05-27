@@ -11,8 +11,20 @@ func BuildConfig() models.Config {
 
 	config.RedisConfig = BuildRedisConfig()
 	config.StorageDriver = BuildStorageDriver()
+	config.ApplicationConfig = BuildApplicationConfig()
 
 	return config
+}
+
+func BuildApplicationConfig() models.ApplicationConfig {
+	c := models.ApplicationConfig{}
+
+	apiBaseUrl, ok := os.LookupEnv("NCRYPT_API_APPLICATION_BASE_URL")
+	if ok {
+		c.ApplicationUrlConfig.ApiBaseUrl = apiBaseUrl
+	}
+
+	return c
 }
 
 func BuildStorageDriver() string {
