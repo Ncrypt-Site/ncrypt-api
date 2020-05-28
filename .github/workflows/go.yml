@@ -1,0 +1,21 @@
+name: nCryptCLI
+
+on: [push, pull_request]
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    name: Tests
+    container: golang:1.14-alpine3.11
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: apk add make
+
+      - name: Get dependencies
+        run: go mod download
+
+      - name: Test
+        run: make test
