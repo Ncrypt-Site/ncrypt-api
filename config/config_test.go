@@ -138,7 +138,7 @@ func TestBuildApplicationConfig(t *testing.T) {
 	}
 
 	c = BuildApplicationConfig()
-	if c.ApiBaseUrl != "https://farshad.nematdoust.com/" || c.AppBaseUrl != "https://farshad.nematdoust.com/" {
+	if c.ApiBaseUrl != "https://farshad.nematdoust.com" || c.AppBaseUrl != "https://farshad.nematdoust.com" {
 		t.Fail()
 	}
 }
