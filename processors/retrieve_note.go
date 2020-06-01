@@ -5,6 +5,7 @@ import (
 	"ncrypt-api/models"
 )
 
+//RetrieveSecureNote retrieve the note from storage
 func RetrieveSecureNote(storage models.StorageInterface, payload models.RetrieveNoteRequest) ([]byte, error) {
 	if !storage.Exists(payload.Id) {
 		return nil, errors.New("note does not exist")
