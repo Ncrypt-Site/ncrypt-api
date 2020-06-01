@@ -9,6 +9,7 @@ import (
 	"net/http"
 )
 
+//GetSecureNoteV1 handles /api/v1/note/{id}
 func (di *DI) GetSecureNoteV1(c echo.Context) error {
 	id := c.Param("id")
 
