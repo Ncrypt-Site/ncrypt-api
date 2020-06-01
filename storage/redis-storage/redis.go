@@ -9,10 +9,12 @@ import (
 	"time"
 )
 
+//RedisStorage holds client connection data
 type RedisStorage struct {
 	Client *redis.Client
 }
 
+//BuildConfiguration connect to redis and return the interface model
 func (r RedisStorage) BuildConfiguration(c models.Config) (models.StorageInterface, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     c.RedisConfig.Addr,
@@ -30,6 +32,7 @@ func (r RedisStorage) BuildConfiguration(c models.Config) (models.StorageInterfa
 	return r, nil
 }
 
+//Store stores data to redis
 func (r RedisStorage) Store(id uuid.UUID, data []byte, duration time.Duration) error {
 	err := r.Client.Set(id.String(), data, duration).Err()
 	if err != nil {
@@ -39,6 +42,7 @@ func (r RedisStorage) Store(id uuid.UUID, data []byte, duration time.Duration) e
 	return nil
 }
 
+//Exists checks whether a note exists in redis
 func (r RedisStorage) Exists(id uuid.UUID) bool {
 	result, err := r.Client.Exists(id.String()).Result()
 	if err != nil || result == 0 {
@@ -48,6 +52,7 @@ func (r RedisStorage) Exists(id uuid.UUID) bool {
 	return true
 }
 
+//Retrieve fetch a note from redis and return it as a SecureMessage model
 func (r RedisStorage) Retrieve(id uuid.UUID) (models.SecureMessage, error) {
 	secureMessage := models.SecureMessage{}
 
@@ -63,6 +68,7 @@ func (r RedisStorage) Retrieve(id uuid.UUID) (models.SecureMessage, error) {
 	return secureMessage, nil
 }
 
+//Delete destory a note on the redis server
 func (r RedisStorage) Delete(id uuid.UUID) error {
 	result, err := r.Client.Del(id.String()).Result()
 	if err != nil {
