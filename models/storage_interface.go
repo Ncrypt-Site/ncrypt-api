@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// StorageInterface defines the needed methods and their signatures for storage implementation
 type StorageInterface interface {
 	BuildConfiguration(c Config) (StorageInterface, error)
 	Store(id uuid.UUID, data []byte, duration time.Duration) error
