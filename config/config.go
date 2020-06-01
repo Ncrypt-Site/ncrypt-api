@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+//BuildConfig build config struct
 func BuildConfig() models.Config {
 	config := models.Config{}
 
@@ -16,6 +17,7 @@ func BuildConfig() models.Config {
 	return config
 }
 
+//BuildApplicationConfig build application config struct
 func BuildApplicationConfig() models.ApplicationConfig {
 	c := models.ApplicationConfig{}
 
@@ -32,6 +34,7 @@ func BuildApplicationConfig() models.ApplicationConfig {
 	return c
 }
 
+//BuildStorageDriver return storage driver
 func BuildStorageDriver() string {
 	if driver, ok := os.LookupEnv("NCRYPT_API_STORAGE_DRIVER"); ok {
 		return driver
@@ -40,6 +43,7 @@ func BuildStorageDriver() string {
 	return "redis"
 }
 
+//BuildRedisConfig build redis config struct
 func BuildRedisConfig() models.RedisConfig {
 	c := models.RedisConfig{}
 
