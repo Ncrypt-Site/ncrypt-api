@@ -2,12 +2,12 @@ package models
 
 import "github.com/google/uuid"
 
-//RetrieveNoteRequest
+//RetrieveNoteRequest data model struct
 type RetrieveNoteRequest struct {
 	Id uuid.UUID `json:"id" validate:"required"`
 }
 
-//RetrieveNoteResponse
+//RetrieveNoteResponse data model struct
 type RetrieveNoteResponse struct {
 	Note string `json:"note"`
 }
