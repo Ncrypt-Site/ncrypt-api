@@ -1,4 +1,4 @@
-package redis_storage
+package redisStorage
 
 import (
 	"encoding/json"
