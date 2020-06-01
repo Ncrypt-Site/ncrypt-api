@@ -6,11 +6,13 @@ import (
 	"ncrypt-api/storage"
 )
 
+//DI holds application dependencies data
 type DI struct {
 	StorageDriver models.StorageInterface
 	models.ApplicationConfig
 }
 
+//BuildDI build DI struct based on configuration.
 func BuildDI(config models.Config) (DI, error) {
 	di := DI{}
 
