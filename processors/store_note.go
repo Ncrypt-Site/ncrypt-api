@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+//StoreMessage handles storing a secure note
 func StoreMessage(storage models.StorageInterface, m models.SecureMessageRequest) (uuid.UUID, error) {
 	message := models.SecureMessage{
 		Note:                 []byte(m.Note),
