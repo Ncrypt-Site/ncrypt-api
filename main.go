@@ -32,6 +32,7 @@ func main() {
 	e.Logger.Fatal(e.Start(":1990"))
 }
 
+//Validate echo custom validator
 func (v Validator) Validate(i interface{}) error {
 	return v.Validator.Struct(i)
 }
