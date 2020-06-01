@@ -4,6 +4,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+//FormatValidationErrorMessage format validation errors
 func FormatValidationErrorMessage(err error) []string {
 	var messages []string
 
