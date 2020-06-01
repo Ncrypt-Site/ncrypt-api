@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+//PostStoreSecureNoteV1 handles POST /api/v1/note
 func (di *DI) PostStoreSecureNoteV1(c echo.Context) error {
 	payload := models.SecureMessageRequest{}
 
