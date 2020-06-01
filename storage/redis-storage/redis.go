@@ -68,7 +68,7 @@ func (r RedisStorage) Retrieve(id uuid.UUID) (models.SecureMessage, error) {
 	return secureMessage, nil
 }
 
-//Delete destory a note on the redis server
+//Delete destroy a note on the redis server
 func (r RedisStorage) Delete(id uuid.UUID) error {
 	result, err := r.Client.Del(id.String()).Result()
 	if err != nil {
