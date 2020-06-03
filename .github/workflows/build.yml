@@ -1,0 +1,34 @@
+name: nCrypt Build
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Logging into docker hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login --username ph4r5h4d --password-stdin
+      - name: Build docker image
+        run: docker build . --file Dockerfile --tag nCryptAPI
+      - name: Tag and push
+        run: |
+          IMAGE=ncryptdotsite/ncrypt-api
+
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          echo $IMAGE
+          echo $VERSION
+
+          docker tag nCryptAPI $IMAGE:$VERSION
+          docker tag nCryptAPI $IMAGE:latest
+
+          docker push $IMAGE:$VERSION
+          docker push $IMAGE:latest
