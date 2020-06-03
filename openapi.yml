@@ -5,7 +5,7 @@ info:
   description: NCrypt API documentation
 
 servers:
-  - url: https://core.ncrypt.site/api/v1
+  - url: https://api.ncrypt.site/api/v1
 
 paths:
   /note/{id}:
