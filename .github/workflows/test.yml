@@ -1,4 +1,4 @@
-name: nCryptCLI
+name: nCrypt API test
 
 on: [push, pull_request]
 
