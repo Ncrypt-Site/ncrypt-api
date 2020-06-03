@@ -1,4 +1,4 @@
-name: nCrypt Build
+name: nCrypt API Build
 
 on:
   push:
