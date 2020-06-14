@@ -20,6 +20,7 @@ func main() {
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.CORS())
+	e.Use(middleware.BodyLimit("100K"))
 	//e.Use(middleware.Logger())
 
 	customValidator := validator.New()
